@@ -354,26 +354,131 @@ element: 'Fire',
 luckyColor: 'Red',
 luckyNumber: '9',
 traits: 'energetic, confident',
-advice: 'Channel your natural leadership abilities into new projects today.'
+advice: 'Channel your natural leadership abilities into new projects today.',
+health: 88,
+wealth: 92,
+love: 85
 },
 'TAURUS': {
 element: 'Earth',
 luckyColor: 'Green',
 luckyNumber: '6',
 traits: 'reliable, patient',
-advice: 'Focus on building long-term stability in your endeavors.'
+advice: 'Focus on building long-term stability in your endeavors.',
+health: 90,
+wealth: 85,
+love: 88
 },
-// Add other zodiac signs...
+'GEMINI': {
+element: 'Air',
+luckyColor: 'Yellow',
+luckyNumber: '5',
+traits: 'adaptable, intellectual',
+advice: 'Your communication skills will open new doors today.',
+health: 85,
+wealth: 88,
+love: 90
+},
+'CANCER': {
+element: 'Water',
+luckyColor: 'Silver',
+luckyNumber: '2',
+traits: 'intuitive, nurturing',
+advice: 'Trust your instincts in important decisions today.',
+health: 92,
+wealth: 82,
+love: 95
+},
+'LEO': {
+element: 'Fire',
+luckyColor: 'Gold',
+luckyNumber: '1',
+traits: 'charismatic, generous',
+advice: 'Your natural leadership will shine in group activities.',
+health: 87,
+wealth: 90,
+love: 88
+},
+'VIRGO': {
+element: 'Earth',
+luckyColor: 'Navy',
+luckyNumber: '4',
+traits: 'analytical, practical',
+advice: 'Your attention to detail will be rewarded today.',
+health: 89,
+wealth: 87,
+love: 84
+},
+'LIBRA': {
+element: 'Air',
+luckyColor: 'Pink',
+luckyNumber: '7',
+traits: 'diplomatic, artistic',
+advice: 'Balance work and personal life for optimal results.',
+health: 86,
+wealth: 89,
+love: 92
+},
+'SCORPIO': {
+element: 'Water',
+luckyColor: 'Black',
+luckyNumber: '8',
+traits: 'passionate, resourceful',
+advice: 'Your determination will help overcome any obstacles.',
+health: 88,
+wealth: 93,
+love: 87
+},
+'SAGITTARIUS': {
+element: 'Fire',
+luckyColor: 'Purple',
+luckyNumber: '3',
+traits: 'optimistic, adventurous',
+advice: 'Explore new opportunities that present themselves.',
+health: 91,
+wealth: 86,
+love: 89
+},
+'CAPRICORN': {
+element: 'Earth',
+luckyColor: 'Brown',
+luckyNumber: '4',
+traits: 'disciplined, ambitious',
+advice: 'Your hard work will pay off in unexpected ways.',
+health: 85,
+wealth: 94,
+love: 83
+},
+'AQUARIUS': {
+element: 'Air',
+luckyColor: 'Blue',
+luckyNumber: '11',
+traits: 'innovative, humanitarian',
+advice: 'Your unique perspective will solve a complex problem.',
+health: 87,
+wealth: 88,
+love: 86
+},
+'PISCES': {
+element: 'Water',
+luckyColor: 'Sea Green',
+luckyNumber: '12',
+traits: 'compassionate, artistic',
+advice: 'Your creativity will lead to meaningful connections.',
+health: 89,
+wealth: 85,
+love: 93
+}
 };
-const trait = zodiacTraits[sign] || zodiacTraits['ARIES'];
+const trait = zodiacTraits[sign];
 return {
-health: Math.floor(Math.random() * 20) + 75,
-wealth: Math.floor(Math.random() * 20) + 75,
-love: Math.floor(Math.random() * 20) + 75,
+health: trait.health,
+wealth: trait.wealth,
+love: trait.love,
 luckyColor: trait.luckyColor,
 luckyNumber: trait.luckyNumber,
-financialAdvice: `Your ${trait.traits} nature will bring financial opportunities.`,
-romanceAdvice: `Being ${trait.traits} will attract positive relationships.`,
+financialAdvice: `Your ${trait.traits} nature will bring unique financial opportunities. The influence of ${trait.element} element suggests ${trait.wealth > 90 ? 'exceptional' : 'favorable'} conditions for wealth growth.`,
+romanceAdvice: `Being ${trait.traits} will enhance your relationships today. The ${trait.element} element brings ${trait.love > 90 ? 'powerful' : 'positive'} energy to your love life.`,
 dailyAdvice: trait.advice
 };
 }
@@ -381,23 +486,58 @@ function generateBloodAnalysis(type) {
 const bloodTraits = {
 'A': {
 traits: 'cooperative, sensitive',
-advice: 'Your natural attention to detail will serve you well today.'
+personality: 'perfectionist',
+strengths: 'detail-oriented, organized',
+advice: 'Your natural attention to detail will serve you well today.',
+health: 92,
+wealth: 85,
+love: 88,
+luckyColor: 'Navy Blue',
+luckyNumber: '1'
 },
 'B': {
 traits: 'creative, flexible',
-advice: 'Your adaptability will help you overcome challenges.'
+personality: 'independent',
+strengths: 'adaptable, innovative',
+advice: 'Your adaptability will help you overcome challenges.',
+health: 88,
+wealth: 90,
+love: 85,
+luckyColor: 'Forest Green',
+luckyNumber: '2'
 },
-// Add other blood types...
+'O': {
+traits: 'confident, resilient',
+personality: 'leader',
+strengths: 'determined, energetic',
+advice: 'Your natural leadership qualities will bring success.',
+health: 90,
+wealth: 88,
+love: 86,
+luckyColor: 'Deep Red',
+luckyNumber: '4'
+},
+'AB': {
+traits: 'rational, adaptable',
+personality: 'mysterious',
+strengths: 'intellectual, versatile',
+advice: 'Your unique perspective will lead to breakthrough insights.',
+health: 86,
+wealth: 92,
+love: 89,
+luckyColor: 'Royal Purple',
+luckyNumber: '3'
+}
 };
-const trait = bloodTraits[type] || bloodTraits['A'];
+const trait = bloodTraits[type];
 return {
-health: Math.floor(Math.random() * 20) + 75,
-wealth: Math.floor(Math.random() * 20) + 75,
-love: Math.floor(Math.random() * 20) + 75,
-luckyColor: 'Blue',
-luckyNumber: '3',
-financialAdvice: `Your ${trait.traits} personality suggests good investment opportunities.`,
-romanceAdvice: `Being ${trait.traits} will enhance your relationships today.`,
+health: trait.health,
+wealth: trait.wealth,
+love: trait.love,
+luckyColor: trait.luckyColor,
+luckyNumber: trait.luckyNumber,
+financialAdvice: `As a ${trait.personality} type, your ${trait.traits} personality suggests excellent investment opportunities. Focus on your ${trait.strengths} to maximize financial growth.`,
+romanceAdvice: `Your ${trait.traits} nature makes you particularly attractive today. Your ${trait.strengths} will help deepen relationships.`,
 dailyAdvice: trait.advice
 };
 }
@@ -405,39 +545,229 @@ function generateMBTIAnalysis(type) {
 const mbtiTraits = {
 'INTJ': {
 traits: 'strategic, innovative',
-advice: 'Your analytical skills will reveal hidden opportunities.'
+strengths: 'analytical thinking, planning',
+career: 'strategic planning',
+advice: 'Your analytical skills will reveal hidden opportunities.',
+health: 85,
+wealth: 94,
+love: 82,
+luckyColor: 'Deep Blue',
+luckyNumber: '7'
+},
+'INTP': {
+traits: 'logical, curious',
+strengths: 'problem-solving, theoretical thinking',
+career: 'research and analysis',
+advice: 'Your intellectual curiosity will lead to valuable discoveries.',
+health: 83,
+wealth: 92,
+love: 84,
+luckyColor: 'Gray',
+luckyNumber: '5'
+},
+'ENTJ': {
+traits: 'decisive, efficient',
+strengths: 'leadership, organization',
+career: 'executive management',
+advice: 'Your leadership skills will create new opportunities.',
+health: 88,
+wealth: 95,
+love: 85,
+luckyColor: 'Dark Red',
+luckyNumber: '8'
+},
+'ENTP': {
+traits: 'innovative, adaptable',
+strengths: 'creativity, debate',
+career: 'entrepreneurship',
+advice: 'Your versatility will open unexpected doors.',
+health: 86,
+wealth: 90,
+love: 87,
+luckyColor: 'Orange',
+luckyNumber: '3'
+},
+'INFJ': {
+traits: 'insightful, determined',
+strengths: 'empathy, vision',
+career: 'counseling',
+advice: 'Your intuition will guide important decisions.',
+health: 89,
+wealth: 86,
+love: 93,
+luckyColor: 'Purple',
+luckyNumber: '9'
+},
+'INFP': {
+traits: 'idealistic, creative',
+strengths: 'writing, artistic expression',
+career: 'creative arts',
+advice: 'Your authenticity will inspire others.',
+health: 87,
+wealth: 84,
+love: 92,
+luckyColor: 'Sky Blue',
+luckyNumber: '4'
+},
+'ENFJ': {
+traits: 'charismatic, supportive',
+strengths: 'motivation, inspiration',
+career: 'teaching',
+advice: 'Your natural leadership will unite people.',
+health: 90,
+wealth: 88,
+love: 94,
+luckyColor: 'Warm Gold',
+luckyNumber: '2'
 },
 'ENFP': {
 traits: 'enthusiastic, creative',
-advice: 'Your natural charm will open new doors today.'
+strengths: 'innovation, communication',
+career: 'creative direction',
+advice: 'Your natural charm will open new doors today.',
+health: 88,
+wealth: 86,
+love: 91,
+luckyColor: 'Bright Yellow',
+luckyNumber: '6'
 },
-// Add other MBTI types...
+'ISTJ': {
+traits: 'practical, organized',
+strengths: 'reliability, detail-orientation',
+career: 'administration',
+advice: 'Your methodical approach will ensure success.',
+health: 91,
+wealth: 89,
+love: 83,
+luckyColor: 'Navy',
+luckyNumber: '1'
+},
+'ISFJ': {
+traits: 'nurturing, dedicated',
+strengths: 'observation, support',
+career: 'healthcare',
+advice: 'Your caring nature will strengthen relationships.',
+health: 92,
+wealth: 85,
+love: 90,
+luckyColor: 'Soft Green',
+luckyNumber: '6'
+},
+'ESTJ': {
+traits: 'efficient, structured',
+strengths: 'organization, leadership',
+career: 'business management',
+advice: 'Your organizational skills will optimize results.',
+health: 89,
+wealth: 93,
+love: 84,
+luckyColor: 'Brown',
+luckyNumber: '8'
+},
+'ESFJ': {
+traits: 'sociable, caring',
+strengths: 'cooperation, harmony',
+career: 'community service',
+advice: 'Your social skills will create valuable connections.',
+health: 90,
+wealth: 87,
+love: 92,
+luckyColor: 'Pink',
+luckyNumber: '2'
+},
+'ISTP': {
+traits: 'versatile, practical',
+strengths: 'troubleshooting, craftsmanship',
+career: 'technical work',
+advice: 'Your adaptability will solve complex problems.',
+health: 86,
+wealth: 88,
+love: 85,
+luckyColor: 'Silver',
+luckyNumber: '5'
+},
+'ISFP': {
+traits: 'artistic, gentle',
+strengths: 'aesthetics, harmony',
+career: 'arts and design',
+advice: 'Your creativity will bring beauty to others.',
+health: 88,
+wealth: 84,
+love: 89,
+luckyColor: 'Pastel Blue',
+luckyNumber: '4'
+},
+'ESTP': {
+traits: 'energetic, practical',
+strengths: 'action, resourcefulness',
+career: 'sales',
+advice: 'Your dynamic energy will create opportunities.',
+health: 92,
+wealth: 90,
+love: 86,
+luckyColor: 'Red',
+luckyNumber: '3'
+},
+'ESFP': {
+traits: 'spontaneous, cheerful',
+strengths: 'performance, enthusiasm',
+career: 'entertainment',
+advice: 'Your enthusiasm will brighten others\' day.',
+health: 89,
+wealth: 85,
+love: 91,
+luckyColor: 'Bright Pink',
+luckyNumber: '7'
+}
 };
-const trait = mbtiTraits[type] || mbtiTraits['INTJ'];
+const trait = mbtiTraits[type];
 return {
-health: Math.floor(Math.random() * 20) + 75,
-wealth: Math.floor(Math.random() * 20) + 75,
-love: Math.floor(Math.random() * 20) + 75,
-luckyColor: 'Purple',
-luckyNumber: '7',
-financialAdvice: `Your ${trait.traits} mindset will lead to financial insights.`,
-romanceAdvice: `Your ${trait.traits} nature will attract meaningful connections.`,
+health: trait.health,
+wealth: trait.wealth,
+love: trait.love,
+luckyColor: trait.luckyColor,
+luckyNumber: trait.luckyNumber,
+financialAdvice: `Your ${trait.traits} mindset is perfect for ${trait.career}. Focus on your ${trait.strengths} to maximize financial opportunities.`,
+romanceAdvice: `Your ${trait.traits} nature makes you especially attractive. Your ${trait.strengths} will deepen connections.`,
 dailyAdvice: trait.advice
 };
 }
 function updateModalContent(analysis) {
-document.querySelector('[data-score="health"]').textContent = `${analysis.health}%`;
-document.querySelector('[data-score="wealth"]').textContent = `${analysis.wealth}%`;
-document.querySelector('[data-score="love"]').textContent = `${analysis.love}%`;
+const healthScore = document.querySelector('.grid.grid-cols-3 p.text-primary.font-medium:nth-child(3)');
+const wealthScore = document.querySelector('.grid.grid-cols-3 p.text-primary.font-medium:nth-child(6)');
+const loveScore = document.querySelector('.grid.grid-cols-3 p.text-primary.font-medium:nth-child(9)');
+healthScore.textContent = `${analysis.health}%`;
+wealthScore.textContent = `${analysis.wealth}%`;
+loveScore.textContent = `${analysis.love}%`;
 const modal = document.getElementById('fortuneModal');
-modal.querySelector('.text-primary:contains("Color")').textContent = `Color: ${analysis.luckyColor}`;
-modal.querySelector('.text-primary:contains("Number")').textContent = `Number: ${analysis.luckyNumber}`;
+const luckyElements = modal.querySelectorAll('.grid.grid-cols-2.gap-2 .flex.items-center.space-x-2.text-sm');
+luckyElements[0].querySelector('span').textContent = `Color: ${analysis.luckyColor}`;
+luckyElements[1].querySelector('span').textContent = `Number: ${analysis.luckyNumber}`;
 const financialProspects = modal.querySelector('h4:contains("Financial Prospects") + p');
 financialProspects.textContent = analysis.financialAdvice;
 const romance = modal.querySelector('h4:contains("Romance") + p');
 romance.textContent = analysis.romanceAdvice;
-const dailyAdvice = modal.querySelector('h4:contains("Daily Advice") + div p');
+const dailyAdvice = modal.querySelector('.bg-primary\\/5.p-3.rounded-lg p');
 dailyAdvice.textContent = analysis.dailyAdvice;
+const stars = modal.querySelectorAll('.flex.text-primary i');
+const overallLuck = Math.floor((analysis.health + analysis.wealth + analysis.love) / 3);
+stars.forEach((star, index) => {
+  if (index < Math.floor(overallLuck / 20)) {
+    star.className = 'ri-star-fill';
+  } else {
+    star.className = 'ri-star-line';
+  }
+});
+const trends = ['Social Events', 'New Connections', 'Career Growth', 'Travel', 'Learning'];
+const trendContainer = modal.querySelector('.flex.flex-wrap.gap-2');
+trendContainer.innerHTML = '';
+const selectedTrends = trends.sort(() => 0.5 - Math.random()).slice(0, 2);
+selectedTrends.forEach(trend => {
+  const span = document.createElement('span');
+  span.className = 'text-xs px-2 py-1 bg-primary/10 text-primary rounded-full';
+  span.textContent = trend;
+  trendContainer.appendChild(span);
+});
 }
 function showError(message) {
 const errorDiv = document.createElement('div');
