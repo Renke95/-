@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=375px, initial-scale=1.0">
+<title>Fortune Telling</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body { background-color: #FFF5F7; }
+.modal { display: none; }
+.modal.active { display: flex; }
+input[type="radio"] { display: none; }
+.fortune-card { transition: all 0.3s ease; }
+.fortune-card:hover { transform: translateY(-5px); }
+</style>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#D8B4FE',
+secondary: '#FFE4E1'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+</head>
+<body class="w-[375px] min-h-[762px] mx-auto relative bg-white">
+<div class="fixed top-0 w-full z-50">
+<div class="bg-primary/10 py-1">
+<p class="text-xs text-center text-primary">Current Online Users: <span id="onlineUsers">10000</span></p>
+</div>
+<nav class="bg-white/80 backdrop-blur-md border-b border-gray-100">
+<div class="flex items-center justify-between px-4 h-14">
+<div class="font-['Pacifico'] text-xl text-primary">logo</div>
+<div class="w-8 h-8 flex items-center justify-center cursor-pointer">
+<i class="ri-user-line text-gray-600"></i>
+</div>
+</div>
+</nav>
+</div>
+<main class="pt-24 pb-20 px-4">
+<h1 class="text-2xl font-semibold text-center mb-8">Daily Fortune Reading</h1>
+<div class="grid grid-cols-3 gap-4 mb-8">
+<div class="fortune-card bg-white p-4 rounded-lg shadow-sm cursor-pointer" onclick="selectOption('zodiac')">
+<div class="w-12 h-12 mx-auto mb-2 flex items-center justify-center bg-primary/10 rounded-full">
+<i class="ri-star-line text-primary text-xl"></i>
+</div>
+<p class="text-xs text-center">Zodiac Signs</p>
+</div>
+<div class="fortune-card bg-white p-4 rounded-lg shadow-sm cursor-pointer" onclick="selectOption('blood')">
+<div class="w-12 h-12 mx-auto mb-2 flex items-center justify-center bg-primary/10 rounded-full">
+<i class="ri-heart-pulse-line text-primary text-xl"></i>
+</div>
+<p class="text-xs text-center">Blood Type</p>
+</div>
+<div class="fortune-card bg-white p-4 rounded-lg shadow-sm cursor-pointer" onclick="selectOption('mbti')">
+<div class="w-12 h-12 mx-auto mb-2 flex items-center justify-center bg-primary/10 rounded-full">
+<i class="ri-psychotherapy-line text-primary text-xl"></i>
+</div>
+<p class="text-xs text-center">MBTI</p>
+</div>
+</div>
+<div id="inputSection" class="hidden mb-8">
+<div class="bg-white p-6 rounded-lg shadow-sm">
+<h3 class="text-lg font-medium mb-4" id="inputTitle"></h3>
+<input type="text" id="fortuneInput" class="w-full p-3 border rounded-lg mb-4 focus:outline-none focus:border-primary" placeholder="">
+<button onclick="generateFortune()" class="w-full bg-primary text-white py-3 rounded-button font-medium">Generate Fortune</button>
+</div>
+</div>
+<div class="bg-white rounded-lg shadow-sm p-4 mb-8">
+<h2 class="text-lg font-medium mb-4">Latest Insights</h2>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-3 border rounded-lg">
+<div class="flex items-center mb-2">
+<i class="ri-star-line text-primary mr-2"></i>
+<span class="text-sm">Aries</span>
+</div>
+<p class="text-xs text-gray-600">Today brings exciting opportunities for personal growth...</p>
+</div>
+<div class="p-3 border rounded-lg">
+<div class="flex items-center mb-2">
+<i class="ri-heart-pulse-line text-primary mr-2"></i>
+<span class="text-sm">Type A</span>
+</div>
+<p class="text-xs text-gray-600">Your natural leadership qualities will shine through...</p>
+</div>
+</div>
+</div>
+</main>
+<div id="fortuneModal" class="modal fixed inset-0 bg-black/50 items-center justify-center z-50">
+<div class="bg-white w-[340px] rounded-xl p-6 m-4">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-lg font-medium">Your Fortune Reading</h3>
+<button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center">
+<i class="ri-close-line"></i>
+</button>
+</div>
+<div class="space-y-6">
+<div>
+<h4 class="text-sm font-medium mb-2">Overall Luck</h4>
+<div class="flex text-primary">
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-fill"></i>
+<i class="ri-star-line"></i>
+</div>
+</div>
+<div>
+<h4 class="text-sm font-medium mb-2">Financial Prospects</h4>
+<p class="text-sm text-gray-600">Favorable conditions for investments. Consider long-term planning.</p>
+</div>
+<div>
+<h4 class="text-sm font-medium mb-2">Romance</h4>
+<p class="text-sm text-gray-600">An unexpected encounter might lead to something special.</p>
+</div>
+<button onclick="closeModal()" class="w-full bg-primary text-white py-3 rounded-button font-medium">Got it</button>
+</div>
+</div>
+</div>
+<nav class="fixed bottom-0 w-full bg-white border-t border-gray-100">
+<div class="grid grid-cols-4 h-14">
+<a class="flex flex-col items-center justify-center">
+<i class="ri-home-line text-primary"></i>
+<span class="text-[10px] mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center">
+<i class="ri-history-line text-gray-400"></i>
+<span class="text-[10px] mt-1">History</span>
+</a>
+<a class="flex flex-col items-center justify-center">
+<i class="ri-heart-line text-gray-400"></i>
+<span class="text-[10px] mt-1">Favorites</span>
+</a>
+<a class="flex flex-col items-center justify-center">
+<i class="ri-settings-line text-gray-400"></i>
+<span class="text-[10px] mt-1">Settings</span>
+</a>
+</div>
+</nav>
+<script>
+function updateOnlineUsers() {
+  const usersElement = document.getElementById('onlineUsers');
+  let currentUsers = parseInt(usersElement.textContent);
+  const increment = Math.floor(Math.random() * 5) + 1;
+  currentUsers += increment;
+  usersElement.textContent = currentUsers.toLocaleString();
+}
+setInterval(updateOnlineUsers, 2000);
+const mockData = {
+zodiac: ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'],
+blood: ['A', 'B', 'O', 'AB'],
+mbti: ['INTJ', 'INTP', 'ENTJ', 'ENTP', 'INFJ', 'INFP', 'ENFJ', 'ENFP', 'ISTJ', 'ISFJ', 'ESTJ', 'ESFJ', 'ISTP', 'ISFP', 'ESTP', 'ESFP']
+};
+let currentOption = '';
+function selectOption(option) {
+currentOption = option;
+const inputSection = document.getElementById('inputSection');
+const inputTitle = document.getElementById('inputTitle');
+const fortuneInput = document.getElementById('fortuneInput');
+inputSection.classList.remove('hidden');
+switch(option) {
+case 'zodiac':
+inputTitle.textContent = 'Select Your Zodiac Sign';
+fortuneInput.placeholder = 'Enter your zodiac sign';
+break;
+case 'blood':
+inputTitle.textContent = 'Enter Your Blood Type';
+fortuneInput.placeholder = 'Enter your blood type';
+break;
+case 'mbti':
+inputTitle.textContent = 'Enter Your MBTI Type';
+fortuneInput.placeholder = 'Enter your MBTI type';
+break;
+}
+}
+function generateFortune() {
+const input = document.getElementById('fortuneInput').value.toUpperCase();
+if (!input) return;
+if (currentOption === 'zodiac' && !mockData.zodiac.includes(input)) {
+alert('Please enter a valid zodiac sign');
+return;
+}
+if (currentOption === 'blood' && !mockData.blood.includes(input)) {
+alert('Please enter a valid blood type');
+return;
+}
+if (currentOption === 'mbti' && !mockData.mbti.includes(input)) {
+alert('Please enter a valid MBTI type');
+return;
+}
+document.getElementById('fortuneModal').classList.add('active');
+}
+function closeModal() {
+document.getElementById('fortuneModal').classList.remove('active');
+}
+</script>
+</body>
+</html>
