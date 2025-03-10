@@ -122,22 +122,67 @@ languageMenu.classList.add('hidden');
 </div>
 </nav>
 <main class="pt-20 pb-20 px-4">
-<h1 class="text-2xl font-semibold text-center mb-8">Daily Fortune Reading</h1>
-<div class="grid grid-cols-3 gap-4 mb-8">
-<div class="fortune-card bg-white p-4 rounded-lg shadow-sm cursor-pointer" onclick="selectOption('zodiac')">
-<div class="w-12 h-12 mx-auto mb-2 flex items-center justify-center bg-primary/10 rounded-full">
+<div class="relative w-full h-64 mb-8 overflow-hidden rounded-xl">
+<div class="absolute inset-0 bg-gradient-to-r from-primary/30 to-secondary/30 animate-pulse"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="relative">
+<div class="absolute -inset-4">
+<div class="w-full h-full rotate-180 opacity-40">
+<div class="absolute inset-0 bg-gradient-to-r from-primary to-secondary blur-2xl animate-spin-slow"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-secondary to-primary blur-2xl animate-spin-slower"></div>
+</div>
+</div>
+<img src="https://public.readdy.ai/ai/img_res/f9c3022d4829aadfaf7fea39f5e3a737.jpg" class="w-40 h-40 object-cover rounded-full shadow-2xl" alt="Crystal Ball">
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-44 h-44 border-2 border-primary/30 rounded-full animate-ping"></div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-6 left-0 right-0 text-center">
+<h1 class="text-3xl font-semibold mb-3 text-white drop-shadow-lg">Daily Fortune Reading</h1>
+<p class="text-sm text-white/90">Discover your destiny through the mystical arts</p>
+</div>
+</div>
+<style>
+@keyframes spin-slow {
+from { transform: rotate(0deg); }
+to { transform: rotate(360deg); }
+}
+@keyframes spin-slower {
+from { transform: rotate(360deg); }
+to { transform: rotate(0deg); }
+}
+@keyframes float {
+0% { transform: translateY(0px); }
+50% { transform: translateY(-10px); }
+100% { transform: translateY(0px); }
+}
+.animate-spin-slow {
+animation: spin-slow 12s linear infinite;
+}
+.animate-spin-slower {
+animation: spin-slower 18s linear infinite;
+}
+.animate-float {
+animation: float 3s ease-in-out infinite;
+}
+</style>
+<div class="grid grid-cols-3 gap-4 mb-8 relative py-6" style="background: url('https://public.readdy.ai/ai/img_res/6a6033508ba5b6e9b0525e285e747e30.jpg') center/cover;">
+<div class="absolute inset-0 bg-gradient-to-b from-primary/5 to-secondary/5 animate-pulse"></div>
+<div class="fortune-card bg-white/80 backdrop-blur-sm p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-300" onclick="selectOption('zodiac')" style="border: 1px solid rgba(216, 180, 254, 0.3)">
+<div class="w-12 h-12 mx-auto mb-2 flex items-center justify-center bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full animate-float">
 <i class="ri-star-line text-primary text-xl"></i>
 </div>
 <p class="text-xs text-center">Zodiac Signs</p>
 </div>
-<div class="fortune-card bg-white p-4 rounded-lg shadow-sm cursor-pointer" onclick="selectOption('blood')">
-<div class="w-12 h-12 mx-auto mb-2 flex items-center justify-center bg-primary/10 rounded-full">
+<div class="fortune-card bg-white/80 backdrop-blur-sm p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-300" onclick="selectOption('blood')" style="border: 1px solid rgba(216, 180, 254, 0.3)">
+<div class="w-12 h-12 mx-auto mb-2 flex items-center justify-center bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full animate-float">
 <i class="ri-heart-pulse-line text-primary text-xl"></i>
 </div>
 <p class="text-xs text-center">Blood Type</p>
 </div>
-<div class="fortune-card bg-white p-4 rounded-lg shadow-sm cursor-pointer" onclick="selectOption('mbti')">
-<div class="w-12 h-12 mx-auto mb-2 flex items-center justify-center bg-primary/10 rounded-full">
+<div class="fortune-card bg-white/80 backdrop-blur-sm p-4 rounded-lg shadow-lg cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-300" onclick="selectOption('mbti')" style="border: 1px solid rgba(216, 180, 254, 0.3)">
+<div class="w-12 h-12 mx-auto mb-2 flex items-center justify-center bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full animate-float">
 <i class="ri-psychotherapy-line text-primary text-xl"></i>
 </div>
 <p class="text-xs text-center">MBTI</p>
@@ -150,17 +195,17 @@ languageMenu.classList.add('hidden');
 <button onclick="generateFortune()" class="w-full bg-primary text-white py-3 rounded-button font-medium">Generate Fortune</button>
 </div>
 </div>
-<div class="bg-white rounded-lg shadow-sm p-4 mb-8">
+<div class="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-4 mb-8" style="border: 1px solid rgba(216, 180, 254, 0.2)">
 <h2 class="text-lg font-medium mb-4">Latest Insights</h2>
 <div class="grid grid-cols-2 gap-4">
-<div class="p-3 border rounded-lg">
+<div class="p-3 border border-primary/20 rounded-lg bg-gradient-to-br from-white to-secondary/5 hover:shadow-md transition-all duration-300">
 <div class="flex items-center mb-2">
 <i class="ri-star-line text-primary mr-2"></i>
 <span class="text-sm">Aries</span>
 </div>
 <p class="text-xs text-gray-600">Today brings exciting opportunities for personal growth...</p>
 </div>
-<div class="p-3 border rounded-lg">
+<div class="p-3 border border-primary/20 rounded-lg bg-gradient-to-br from-white to-secondary/5 hover:shadow-md transition-all duration-300">
 <div class="flex items-center mb-2">
 <i class="ri-heart-pulse-line text-primary mr-2"></i>
 <span class="text-sm">Type A</span>
