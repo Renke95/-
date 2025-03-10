@@ -192,26 +192,77 @@ DEFAULT: '8px',
 </div>
 </div>
 </div>
-<nav class="fixed bottom-0 w-full bg-white border-t border-gray-100">
-<div class="grid grid-cols-4 h-14">
-<a class="flex flex-col items-center justify-center">
+<div id="prayPage" class="fixed inset-0 bg-black/90 z-40 hidden flex-col items-center justify-center">
+<div class="relative w-full h-full">
+<img src="https://public.readdy.ai/ai/img_res/6b726d836c92e0df167f128e0abe5080.jpg" class="w-full h-full object-cover opacity-80" alt="Jesus">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-24 left-0 right-0 flex flex-col items-center">
+<button id="prayButton" class="bg-white/20 backdrop-blur-sm text-white border border-white/30 px-12 py-3 rounded-full text-lg font-medium hover:bg-white/30 transition-all duration-300 mb-6">
+<i class="ri-pray-line mr-2"></i>Pray
+</button>
+<div id="prayCount" class="text-white/60 text-sm">0 prayers today</div>
+</div>
+</div>
+</div>
+<nav class="fixed bottom-0 w-full bg-white border-t border-gray-100 z-50">
+<div class="grid grid-cols-2 h-14">
+<a class="flex flex-col items-center justify-center cursor-pointer" onclick="showHome()">
 <i class="ri-home-line text-primary"></i>
 <span class="text-[10px] mt-1">Home</span>
 </a>
-<a class="flex flex-col items-center justify-center">
-<i class="ri-history-line text-gray-400"></i>
-<span class="text-[10px] mt-1">History</span>
-</a>
-<a class="flex flex-col items-center justify-center">
-<i class="ri-heart-line text-gray-400"></i>
-<span class="text-[10px] mt-1">Favorites</span>
-</a>
-<a class="flex flex-col items-center justify-center">
-<i class="ri-settings-line text-gray-400"></i>
-<span class="text-[10px] mt-1">Settings</span>
+<a class="flex flex-col items-center justify-center cursor-pointer" onclick="showPray()">
+<i class="ri-pray-line text-gray-400"></i>
+<span class="text-[10px] mt-1">Pray</span>
 </a>
 </div>
 </nav>
+<script>
+let prayCount = 0;
+const mainContent = document.querySelector('main');
+const prayPage = document.getElementById('prayPage');
+const prayButton = document.getElementById('prayButton');
+const prayCountElement = document.getElementById('prayCount');
+function showHome() {
+    mainContent.style.display = 'block';
+    prayPage.style.display = 'none';
+    document.querySelector('[class*="ri-home-line"]').classList.add('text-primary');
+    document.querySelector('[class*="ri-pray-line"]').classList.remove('text-primary');
+    document.querySelector('[class*="ri-pray-line"]').classList.add('text-gray-400');
+}
+function showPray() {
+    mainContent.style.display = 'none';
+    prayPage.style.display = 'flex';
+    document.querySelector('[class*="ri-pray-line"]').classList.add('text-primary');
+    document.querySelector('[class*="ri-pray-line"]').classList.remove('text-gray-400');
+    document.querySelector('[class*="ri-home-line"]').classList.remove('text-primary');
+    document.querySelector('[class*="ri-home-line"]').classList.add('text-gray-400');
+}
+prayButton.addEventListener('click', () => {
+    prayCount++;
+    prayCountElement.textContent = `${prayCount} prayer${prayCount > 1 ? 's' : ''} today`;
+    
+    prayButton.classList.add('scale-90');
+    setTimeout(() => {
+        prayButton.classList.remove('scale-90');
+    }, 200);
+    
+    const blessing = document.createElement('div');
+    blessing.className = 'fixed text-white text-opacity-0 transform transition-all duration-1000';
+    blessing.style.left = '50%';
+    blessing.style.top = '50%';
+    blessing.textContent = '🙏 Blessed';
+    
+    document.body.appendChild(blessing);
+    
+    requestAnimationFrame(() => {
+        blessing.style.transform = 'translate(-50%, -100px)';
+        blessing.style.opacity = '0';
+    });
+    
+    setTimeout(() => blessing.remove(), 1000);
+});
+showHome();
+</script>
 <script>
 function updateOnlineUsers() {
 const usersElement = document.getElementById('onlineUsers');
@@ -249,131 +300,125 @@ break;
 }
 }
 function generateFortune() {
-  const input = document.getElementById('fortuneInput').value.toUpperCase();
-  if (!input) {
-    showError('Please enter your information');
-    return;
-  }
-  
-  let analysis = {};
-  
-  if (currentOption === 'zodiac') {
-    if (!mockData.zodiac.includes(input)) {
-      showError('Please enter a valid zodiac sign');
-      return;
-    }
-    analysis = generateZodiacAnalysis(input);
-  } else if (currentOption === 'blood') {
-    if (!mockData.blood.includes(input)) {
-      showError('Please enter a valid blood type');
-      return;
-    }
-    analysis = generateBloodAnalysis(input);
-  } else if (currentOption === 'mbti') {
-    if (!mockData.mbti.includes(input)) {
-      showError('Please enter a valid MBTI type');
-      return;
-    }
-    analysis = generateMBTIAnalysis(input);
-  }
-  document.getElementById('fortuneModal').classList.add('active');
-  updateModalContent(analysis);
+const input = document.getElementById('fortuneInput').value.toUpperCase();
+if (!input) {
+showError('Please enter your information');
+return;
+}
+let analysis = {};
+if (currentOption === 'zodiac') {
+if (!mockData.zodiac.includes(input)) {
+showError('Please enter a valid zodiac sign');
+return;
+}
+analysis = generateZodiacAnalysis(input);
+} else if (currentOption === 'blood') {
+if (!mockData.blood.includes(input)) {
+showError('Please enter a valid blood type');
+return;
+}
+analysis = generateBloodAnalysis(input);
+} else if (currentOption === 'mbti') {
+if (!mockData.mbti.includes(input)) {
+showError('Please enter a valid MBTI type');
+return;
+}
+analysis = generateMBTIAnalysis(input);
+}
+document.getElementById('fortuneModal').classList.add('active');
+updateModalContent(analysis);
 }
 function generateZodiacAnalysis(sign) {
-  const zodiacTraits = {
-    'ARIES': {
-      element: 'Fire',
-      luckyColor: 'Red',
-      luckyNumber: '9',
-      traits: 'energetic, confident',
-      advice: 'Channel your natural leadership abilities into new projects today.'
-    },
-    'TAURUS': {
-      element: 'Earth', 
-      luckyColor: 'Green',
-      luckyNumber: '6',
-      traits: 'reliable, patient',
-      advice: 'Focus on building long-term stability in your endeavors.'
-    },
-    // Add other zodiac signs...
-  };
-  const trait = zodiacTraits[sign] || zodiacTraits['ARIES'];
-  return {
-    health: Math.floor(Math.random() * 20) + 75,
-    wealth: Math.floor(Math.random() * 20) + 75,
-    love: Math.floor(Math.random() * 20) + 75,
-    luckyColor: trait.luckyColor,
-    luckyNumber: trait.luckyNumber,
-    financialAdvice: `Your ${trait.traits} nature will bring financial opportunities.`,
-    romanceAdvice: `Being ${trait.traits} will attract positive relationships.`,
-    dailyAdvice: trait.advice
-  };
+const zodiacTraits = {
+'ARIES': {
+element: 'Fire',
+luckyColor: 'Red',
+luckyNumber: '9',
+traits: 'energetic, confident',
+advice: 'Channel your natural leadership abilities into new projects today.'
+},
+'TAURUS': {
+element: 'Earth',
+luckyColor: 'Green',
+luckyNumber: '6',
+traits: 'reliable, patient',
+advice: 'Focus on building long-term stability in your endeavors.'
+},
+// Add other zodiac signs...
+};
+const trait = zodiacTraits[sign] || zodiacTraits['ARIES'];
+return {
+health: Math.floor(Math.random() * 20) + 75,
+wealth: Math.floor(Math.random() * 20) + 75,
+love: Math.floor(Math.random() * 20) + 75,
+luckyColor: trait.luckyColor,
+luckyNumber: trait.luckyNumber,
+financialAdvice: `Your ${trait.traits} nature will bring financial opportunities.`,
+romanceAdvice: `Being ${trait.traits} will attract positive relationships.`,
+dailyAdvice: trait.advice
+};
 }
 function generateBloodAnalysis(type) {
-  const bloodTraits = {
-    'A': {
-      traits: 'cooperative, sensitive',
-      advice: 'Your natural attention to detail will serve you well today.'
-    },
-    'B': {
-      traits: 'creative, flexible',
-      advice: 'Your adaptability will help you overcome challenges.'
-    },
-    // Add other blood types...
-  };
-  const trait = bloodTraits[type] || bloodTraits['A'];
-  return {
-    health: Math.floor(Math.random() * 20) + 75,
-    wealth: Math.floor(Math.random() * 20) + 75,
-    love: Math.floor(Math.random() * 20) + 75,
-    luckyColor: 'Blue',
-    luckyNumber: '3',
-    financialAdvice: `Your ${trait.traits} personality suggests good investment opportunities.`,
-    romanceAdvice: `Being ${trait.traits} will enhance your relationships today.`,
-    dailyAdvice: trait.advice
-  };
+const bloodTraits = {
+'A': {
+traits: 'cooperative, sensitive',
+advice: 'Your natural attention to detail will serve you well today.'
+},
+'B': {
+traits: 'creative, flexible',
+advice: 'Your adaptability will help you overcome challenges.'
+},
+// Add other blood types...
+};
+const trait = bloodTraits[type] || bloodTraits['A'];
+return {
+health: Math.floor(Math.random() * 20) + 75,
+wealth: Math.floor(Math.random() * 20) + 75,
+love: Math.floor(Math.random() * 20) + 75,
+luckyColor: 'Blue',
+luckyNumber: '3',
+financialAdvice: `Your ${trait.traits} personality suggests good investment opportunities.`,
+romanceAdvice: `Being ${trait.traits} will enhance your relationships today.`,
+dailyAdvice: trait.advice
+};
 }
 function generateMBTIAnalysis(type) {
-  const mbtiTraits = {
-    'INTJ': {
-      traits: 'strategic, innovative',
-      advice: 'Your analytical skills will reveal hidden opportunities.'
-    },
-    'ENFP': {
-      traits: 'enthusiastic, creative',
-      advice: 'Your natural charm will open new doors today.'
-    },
-    // Add other MBTI types...
-  };
-  const trait = mbtiTraits[type] || mbtiTraits['INTJ'];
-  return {
-    health: Math.floor(Math.random() * 20) + 75,
-    wealth: Math.floor(Math.random() * 20) + 75,
-    love: Math.floor(Math.random() * 20) + 75,
-    luckyColor: 'Purple',
-    luckyNumber: '7',
-    financialAdvice: `Your ${trait.traits} mindset will lead to financial insights.`,
-    romanceAdvice: `Your ${trait.traits} nature will attract meaningful connections.`,
-    dailyAdvice: trait.advice
-  };
+const mbtiTraits = {
+'INTJ': {
+traits: 'strategic, innovative',
+advice: 'Your analytical skills will reveal hidden opportunities.'
+},
+'ENFP': {
+traits: 'enthusiastic, creative',
+advice: 'Your natural charm will open new doors today.'
+},
+// Add other MBTI types...
+};
+const trait = mbtiTraits[type] || mbtiTraits['INTJ'];
+return {
+health: Math.floor(Math.random() * 20) + 75,
+wealth: Math.floor(Math.random() * 20) + 75,
+love: Math.floor(Math.random() * 20) + 75,
+luckyColor: 'Purple',
+luckyNumber: '7',
+financialAdvice: `Your ${trait.traits} mindset will lead to financial insights.`,
+romanceAdvice: `Your ${trait.traits} nature will attract meaningful connections.`,
+dailyAdvice: trait.advice
+};
 }
 function updateModalContent(analysis) {
-  document.querySelector('[data-score="health"]').textContent = `${analysis.health}%`;
-  document.querySelector('[data-score="wealth"]').textContent = `${analysis.wealth}%`;
-  document.querySelector('[data-score="love"]').textContent = `${analysis.love}%`;
-  
-  const modal = document.getElementById('fortuneModal');
-  modal.querySelector('.text-primary:contains("Color")').textContent = `Color: ${analysis.luckyColor}`;
-  modal.querySelector('.text-primary:contains("Number")').textContent = `Number: ${analysis.luckyNumber}`;
-  
-  const financialProspects = modal.querySelector('h4:contains("Financial Prospects") + p');
-  financialProspects.textContent = analysis.financialAdvice;
-  
-  const romance = modal.querySelector('h4:contains("Romance") + p');
-  romance.textContent = analysis.romanceAdvice;
-  
-  const dailyAdvice = modal.querySelector('h4:contains("Daily Advice") + div p');
-  dailyAdvice.textContent = analysis.dailyAdvice;
+document.querySelector('[data-score="health"]').textContent = `${analysis.health}%`;
+document.querySelector('[data-score="wealth"]').textContent = `${analysis.wealth}%`;
+document.querySelector('[data-score="love"]').textContent = `${analysis.love}%`;
+const modal = document.getElementById('fortuneModal');
+modal.querySelector('.text-primary:contains("Color")').textContent = `Color: ${analysis.luckyColor}`;
+modal.querySelector('.text-primary:contains("Number")').textContent = `Number: ${analysis.luckyNumber}`;
+const financialProspects = modal.querySelector('h4:contains("Financial Prospects") + p');
+financialProspects.textContent = analysis.financialAdvice;
+const romance = modal.querySelector('h4:contains("Romance") + p');
+romance.textContent = analysis.romanceAdvice;
+const dailyAdvice = modal.querySelector('h4:contains("Daily Advice") + div p');
+dailyAdvice.textContent = analysis.dailyAdvice;
 }
 function showError(message) {
 const errorDiv = document.createElement('div');
