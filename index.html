@@ -42,49 +42,67 @@ DEFAULT: '8px',
 }
 }
 function toggleLanguageMenu() {
-  const menu = document.getElementById('languageMenu');
-  menu.classList.toggle('hidden');
+const menu = document.getElementById('languageMenu');
+menu.classList.toggle('hidden');
 }
 function changeLanguage(lang) {
-  currentLanguage = lang;
-  document.getElementById('currentLang').textContent = lang.toUpperCase();
-  document.getElementById('languageMenu').classList.add('hidden');
-  
-  // Update all text content
-  document.querySelector('h1').textContent = translations[lang].title;
-  document.querySelector('.fortune-card:nth-child(1) p').textContent = translations[lang].zodiacSigns;
-  document.querySelector('.fortune-card:nth-child(2) p').textContent = translations[lang].bloodType;
-  document.querySelector('.fortune-card:nth-child(3) p').textContent = translations[lang].mbtiType;
-  document.querySelector('h2').textContent = translations[lang].latestInsights;
-  
-  // Update buttons
-  document.querySelector('button.bg-primary').textContent = translations[lang].generateFortune;
-  
-  // Update navigation
-  const navItems = document.querySelectorAll('nav.fixed.bottom-0 span');
-  navItems[0].textContent = translations[lang].home;
-  navItems[1].textContent = translations[lang].history;
-  navItems[2].textContent = translations[lang].favorites;
-  navItems[3].textContent = translations[lang].settings;
-  
-  // Update modal buttons
-  document.querySelector('.modal button.border-primary').textContent = translations[lang].close;
-  document.querySelector('.modal button.bg-primary').textContent = translations[lang].share;
+currentLanguage = lang;
+document.getElementById('currentLang').textContent = lang.toUpperCase();
+document.getElementById('languageMenu').classList.add('hidden');
+// Update all text content
+document.querySelector('h1').textContent = translations[lang].title;
+document.querySelector('.fortune-card:nth-child(1) p').textContent = translations[lang].zodiacSigns;
+document.querySelector('.fortune-card:nth-child(2) p').textContent = translations[lang].bloodType;
+document.querySelector('.fortune-card:nth-child(3) p').textContent = translations[lang].mbtiType;
+document.querySelector('h2').textContent = translations[lang].latestInsights;
+// Update input section if visible
+const inputSection = document.getElementById('inputSection');
+if (!inputSection.classList.contains('hidden')) {
+const inputTitle = document.getElementById('inputTitle');
+if (currentOption === 'zodiac') {
+inputTitle.textContent = lang === 'en' ? 'Select Your Zodiac Sign or Chinese Zodiac' :
+lang === 'zh' ? '选择您的星座或生肖' : '星座または干支を選択してください';
+} else if (currentOption === 'blood') {
+inputTitle.textContent = lang === 'en' ? 'Enter Your Blood Type' :
+lang === 'zh' ? '输入您的血型' : '血液型を入力してください';
+} else if (currentOption === 'mbti') {
+inputTitle.textContent = lang === 'en' ? 'Enter Your MBTI Type' :
+lang === 'zh' ? '输入您的MBTI类型' : 'MBTIタイプを入力してください';
+}
+}
+// Update buttons
+const generateButton = document.querySelector('button.bg-primary');
+if (generateButton) {
+generateButton.textContent = translations[lang].generateFortune;
+}
+// Update navigation
+const navItems = document.querySelectorAll('nav.fixed.bottom-0 span');
+navItems[0].textContent = translations[lang].home;
+navItems[1].textContent = translations[lang].history;
+navItems[2].textContent = translations[lang].favorites;
+navItems[3].textContent = translations[lang].settings;
+// Update modal buttons
+const modalCloseBtn = document.querySelector('.modal button.border-primary');
+const modalShareBtn = document.querySelector('.modal button.bg-primary');
+if (modalCloseBtn) modalCloseBtn.textContent = translations[lang].close;
+if (modalShareBtn) modalShareBtn.textContent = translations[lang].share;
+// Keep logo text unchanged
+// Remove this line as we're using an image logo now
 }
 // Close language menu when clicking outside
 document.addEventListener('click', (e) => {
-  const languageSelector = document.getElementById('languageSelector');
-  const languageMenu = document.getElementById('languageMenu');
-  if (!languageSelector.contains(e.target)) {
-    languageMenu.classList.add('hidden');
-  }
+const languageSelector = document.getElementById('languageSelector');
+const languageMenu = document.getElementById('languageMenu');
+if (!languageSelector.contains(e.target)) {
+languageMenu.classList.add('hidden');
+}
 });
 </script>
 </head>
 <body class="w-[375px] min-h-[762px] mx-auto relative bg-white">
 <nav class="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-100">
 <div class="flex items-center justify-between px-4 h-14">
-<div class="font-['Pacifico'] text-xl text-primary">logo</div>
+<img src="https://static.readdy.ai/image/a1945381f3f5188613f7888b610c9dac/e445a657fa3dd0eab04ee62beac9a7bb.jpeg" alt="logo" class="h-8">
 <div class="flex items-center gap-2">
 <div class="relative" id="languageSelector">
 <button onclick="toggleLanguageMenu()" class="flex items-center gap-1 px-2 py-1 text-sm text-gray-600 hover:bg-gray-50 rounded-lg">
@@ -208,53 +226,53 @@ document.addEventListener('click', (e) => {
 </nav>
 <script>
 const translations = {
-  en: {
-    title: 'Daily Fortune Reading',
-    zodiacSigns: 'Zodiac Signs',
-    bloodType: 'Blood Type',
-    mbtiType: 'MBTI',
-    latestInsights: 'Latest Insights',
-    generateFortune: 'Generate Fortune',
-    close: 'Close',
-    share: 'Share',
-    home: 'Home',
-    history: 'History',
-    favorites: 'Favorites',
-    settings: 'Settings'
-  },
-  zh: {
-    title: '每日运势',
-    zodiacSigns: '星座运势',
-    bloodType: '血型运势',
-    mbtiType: 'MBTI运势',
-    latestInsights: '最新解读',
-    generateFortune: '生成运势',
-    close: '关闭',
-    share: '分享',
-    home: '首页',
-    history: '历史',
-    favorites: '收藏',
-    settings: '设置'
-  },
-  ja: {
-    title: '今日の運勢',
-    zodiacSigns: '星座占い',
-    bloodType: '血液型占い',
-    mbtiType: 'MBTI占い',
-    latestInsights: '最新の洞察',
-    generateFortune: '運勢を見る',
-    close: '閉じる',
-    share: 'シェア',
-    home: 'ホーム',
-    history: '履歴',
-    favorites: 'お気に入り',
-    settings: '設定'
-  }
+en: {
+title: 'Daily Fortune Reading',
+zodiacSigns: 'Zodiac Signs',
+bloodType: 'Blood Type',
+mbtiType: 'MBTI',
+latestInsights: 'Latest Insights',
+generateFortune: 'Generate Fortune',
+close: 'Close',
+share: 'Share',
+home: 'Home',
+history: 'History',
+favorites: 'Favorites',
+settings: 'Settings'
+},
+zh: {
+title: '每日运势',
+zodiacSigns: '星座运势',
+bloodType: '血型运势',
+mbtiType: 'MBTI运势',
+latestInsights: '最新解读',
+generateFortune: '生成运势',
+close: '关闭',
+share: '分享',
+home: '首页',
+history: '历史',
+favorites: '收藏',
+settings: '设置'
+},
+ja: {
+title: '今日の運勢',
+zodiacSigns: '星座占い',
+bloodType: '血液型占い',
+mbtiType: 'MBTI占い',
+latestInsights: '最新の洞察',
+generateFortune: '運勢を見る',
+close: '閉じる',
+share: 'シェア',
+home: 'ホーム',
+history: '履歴',
+favorites: 'お気に入り',
+settings: '設定'
+}
 };
 const mockData = {
-  zodiac: ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces', 'Rat', 'Ox', 'Tiger', 'Hare', 'Dragon', 'Snake', 'Horse', 'Sheep', 'Monkey', 'Rooster', 'Dog', 'Boar'],
-  blood: ['A', 'B', 'O', 'AB'],
-  mbti: ['INTJ', 'INTP', 'ENTJ', 'ENTP', 'INFJ', 'INFP', 'ENFJ', 'ENFP', 'ISTJ', 'ISFJ', 'ESTJ', 'ESFJ', 'ISTP', 'ISFP', 'ESTP', 'ESFP']
+zodiac: ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces', 'Rat', 'Ox', 'Tiger', 'Hare', 'Dragon', 'Snake', 'Horse', 'Sheep', 'Monkey', 'Rooster', 'Dog', 'Boar'],
+blood: ['A', 'B', 'O', 'AB'],
+mbti: ['INTJ', 'INTP', 'ENTJ', 'ENTP', 'INFJ', 'INFP', 'ENFJ', 'ENFP', 'ISTJ', 'ISFJ', 'ESTJ', 'ESFJ', 'ISTP', 'ISFP', 'ESTP', 'ESFP']
 };
 let currentLanguage = 'en';
 let currentOption = '';
@@ -383,16 +401,18 @@ romance: "Your charismatic energy attracts multiple admirers. Choose wisely."
 function generateFortune() {
 const input = document.getElementById('fortuneInput').value.toUpperCase();
 if (!input) {
-showError("Please enter a value");
+const errorMessage = currentLanguage === 'en' ? "Please enter a value" :
+currentLanguage === 'zh' ? "请输入值" : "値を入力してください";
+showError(errorMessage);
 return;
 }
 let isValid = false;
 let fortuneData;
 switch(currentOption) {
 case 'zodiac':
-if(mockData.zodiac.includes(input)) {
+if(mockData.zodiac.map(z => z.toUpperCase()).includes(input)) {
 isValid = true;
-fortuneData = mockFortuneData.zodiac[input];
+fortuneData = mockFortuneData.zodiac[mockData.zodiac.find(z => z.toUpperCase() === input)];
 }
 break;
 case 'blood':
@@ -409,7 +429,10 @@ fortuneData = mockFortuneData.mbti[input];
 break;
 }
 if(!isValid) {
-showError(`Please enter a valid ${currentOption} type`);
+const errorMessage = currentLanguage === 'en' ? `Please enter a valid ${currentOption} type` :
+currentLanguage === 'zh' ? `请输入有效的${currentOption === 'zodiac' ? '星座或生肖' : currentOption === 'blood' ? '血型' : 'MBTI类型'}` :
+`有効な${currentOption === 'zodiac' ? '星座または干支' : currentOption === 'blood' ? '血液型' : 'MBTIタイプ'}を入力してください`;
+showError(errorMessage);
 return;
 }
 updateFortuneModal(fortuneData, input);
