@@ -298,6 +298,7 @@ break;
 }
 }
 const mockFortuneData = {
+en: {
 zodiac: {
 Aries: {
 luck: 4,
@@ -309,6 +310,109 @@ luck: 5,
 financial: "Financial stability is highlighted. A long-term investment will yield positive results.",
 romance: "Your natural charm attracts meaningful connections. Express your feelings openly."
 },
+},
+blood: {
+A: {
+luck: 3,
+financial: "Focus on careful planning and systematic approaches to financial decisions.",
+romance: "Your perfectionist nature might need to relax to allow love to flow naturally."
+},
+B: {
+luck: 4,
+financial: "Creative financial solutions will present themselves. Trust your intuition.",
+romance: "Your independent nature attracts interesting potential partners."
+}
+},
+mbti: {
+INTJ: {
+luck: 5,
+financial: "Your strategic thinking will lead to profitable opportunities.",
+romance: "Deep intellectual connections are favored today."
+},
+ENFP: {
+luck: 4,
+financial: "Your creativity opens new income streams. Explore unconventional ideas.",
+romance: "Your charismatic energy attracts multiple admirers. Choose wisely."
+}
+}
+},
+zh: {
+zodiac: {
+Aries: {
+luck: 4,
+financial: "今天你的创业精神高涨。考虑开始那个你一直在思考的项目。",
+romance: "充满激情的邂逅可能带来令人兴奋的新关系。对意外的缘分保持开放态度。"
+},
+Taurus: {
+luck: 5,
+financial: "财务稳定性显著提高。长期投资将带来积极成果。",
+romance: "你天生的魅力吸引着有意义的连接。坦诚地表达你的感受。"
+},
+},
+blood: {
+A: {
+luck: 3,
+financial: "专注于谨慎规划和系统性的财务决策方法。",
+romance: "你的完美主义性格可能需要放松，让爱情自然流露。"
+},
+B: {
+luck: 4,
+financial: "创造性的财务解决方案将会出现。相信你的直觉。",
+romance: "你独立的性格吸引着有趣的潜在伴侣。"
+}
+},
+mbti: {
+INTJ: {
+luck: 5,
+financial: "你的战略思维将带来盈利机会。",
+romance: "今天适合建立深层次的智慧连接。"
+},
+ENFP: {
+luck: 4,
+financial: "你的创造力开辟新的收入来源。探索非常规想法。",
+romance: "你的魅力能量吸引着多个仰慕者。明智选择。"
+}
+}
+},
+ja: {
+zodiac: {
+Aries: {
+luck: 4,
+financial: "今日は起業家精神が高まっています。考えていたプロジェクトを始めることを検討してください。",
+romance: "情熱的な出会いが新しい関係につながるかもしれません。予期せぬ縁に心を開いてください。"
+},
+Taurus: {
+luck: 5,
+financial: "財務の安定性が際立っています。長期的な投資が良い結果をもたらすでしょう。",
+romance: "あなたの自然な魅力が意味のある出会いを引き寄せます。素直に気持ちを表現してください。"
+},
+},
+blood: {
+A: {
+luck: 3,
+financial: "慎重な計画と体系的なアプローチで財務決定を行うことに焦点を当ててください。",
+romance: "完璧主義的な性格を少しリラックスさせ、自然に愛が流れるようにする必要があるかもしれません。"
+},
+B: {
+luck: 4,
+financial: "創造的な財務ソリューションが現れるでしょう。直感を信じてください。",
+romance: "あなたの独立的な性格が興味深い潜在的なパートナーを引き寄せます。"
+}
+},
+mbti: {
+INTJ: {
+luck: 5,
+financial: "戦略的な思考が収益機会につながるでしょう。",
+romance: "今日は知的な深いつながりが期待できます。"
+},
+ENFP: {
+luck: 4,
+financial: "あなたの創造性が新しい収入源を開きます。従来にない発想を探求してください。",
+romance: "あなたのカリスマ的なエネルギーが多くの admirers を引き寄せます。賢明に選択してください。"
+}
+}
+}
+};
 Rat: {
 luck: 4,
 financial: "Your quick wit brings profitable opportunities. Trust your instincts in financial decisions.",
@@ -412,19 +516,19 @@ switch(currentOption) {
 case 'zodiac':
 if(mockData.zodiac.map(z => z.toUpperCase()).includes(input)) {
 isValid = true;
-fortuneData = mockFortuneData.zodiac[mockData.zodiac.find(z => z.toUpperCase() === input)];
+fortuneData = mockFortuneData[currentLanguage].zodiac[mockData.zodiac.find(z => z.toUpperCase() === input)];
 }
 break;
 case 'blood':
 if(mockData.blood.includes(input)) {
 isValid = true;
-fortuneData = mockFortuneData.blood[input];
+fortuneData = mockFortuneData[currentLanguage].blood[input];
 }
 break;
 case 'mbti':
 if(mockData.mbti.includes(input)) {
 isValid = true;
-fortuneData = mockFortuneData.mbti[input];
+fortuneData = mockFortuneData[currentLanguage].mbti[input];
 }
 break;
 }
