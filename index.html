@@ -399,7 +399,7 @@ romance: "Your charismatic energy attracts multiple admirers. Choose wisely."
 }
 };
 function generateFortune() {
-const input = document.getElementById('fortuneInput').value.toUpperCase();
+const input = document.getElementById('fortuneInput').value.trim().toUpperCase();
 if (!input) {
 const errorMessage = currentLanguage === 'en' ? "Please enter a value" :
 currentLanguage === 'zh' ? "请输入值" : "値を入力してください";
@@ -446,7 +446,7 @@ document.body.appendChild(errorDiv);
 setTimeout(() => errorDiv.remove(), 3000);
 }
 function updateFortuneModal(data, input) {
-const starContainer = document.querySelector('.flex.text-primary');
+const starContainer = document.querySelector('#fortuneModal .flex.text-primary');
 starContainer.innerHTML = '';
 // Update stars based on luck rating
 for(let i = 0; i < 5; i++) {
@@ -455,11 +455,11 @@ star.className = i < data.luck ? 'ri-star-fill' : 'ri-star-line';
 starContainer.appendChild(star);
 }
 // Update content
-const modalTitle = document.querySelector('.modal h3');
+const modalTitle = document.querySelector('#fortuneModal h3');
 modalTitle.textContent = `Fortune Reading for ${input}`;
-const financialText = document.querySelector('.modal p:nth-of-type(1)');
+const financialText = document.querySelector('#fortuneModal .bg-gradient-to-r:nth-of-type(2) p');
 financialText.textContent = data.financial;
-const romanceText = document.querySelector('.modal p:nth-of-type(2)');
+const romanceText = document.querySelector('#fortuneModal .bg-gradient-to-r:nth-of-type(3) p');
 romanceText.textContent = data.romance;
 }
 function closeModal() {
