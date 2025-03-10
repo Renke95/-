@@ -41,23 +41,69 @@ DEFAULT: '8px',
 }
 }
 }
+function toggleLanguageMenu() {
+  const menu = document.getElementById('languageMenu');
+  menu.classList.toggle('hidden');
+}
+function changeLanguage(lang) {
+  currentLanguage = lang;
+  document.getElementById('currentLang').textContent = lang.toUpperCase();
+  document.getElementById('languageMenu').classList.add('hidden');
+  
+  // Update all text content
+  document.querySelector('h1').textContent = translations[lang].title;
+  document.querySelector('.fortune-card:nth-child(1) p').textContent = translations[lang].zodiacSigns;
+  document.querySelector('.fortune-card:nth-child(2) p').textContent = translations[lang].bloodType;
+  document.querySelector('.fortune-card:nth-child(3) p').textContent = translations[lang].mbtiType;
+  document.querySelector('h2').textContent = translations[lang].latestInsights;
+  
+  // Update buttons
+  document.querySelector('button.bg-primary').textContent = translations[lang].generateFortune;
+  
+  // Update navigation
+  const navItems = document.querySelectorAll('nav.fixed.bottom-0 span');
+  navItems[0].textContent = translations[lang].home;
+  navItems[1].textContent = translations[lang].history;
+  navItems[2].textContent = translations[lang].favorites;
+  navItems[3].textContent = translations[lang].settings;
+  
+  // Update modal buttons
+  document.querySelector('.modal button.border-primary').textContent = translations[lang].close;
+  document.querySelector('.modal button.bg-primary').textContent = translations[lang].share;
+}
+// Close language menu when clicking outside
+document.addEventListener('click', (e) => {
+  const languageSelector = document.getElementById('languageSelector');
+  const languageMenu = document.getElementById('languageMenu');
+  if (!languageSelector.contains(e.target)) {
+    languageMenu.classList.add('hidden');
+  }
+});
 </script>
 </head>
 <body class="w-[375px] min-h-[762px] mx-auto relative bg-white">
-<div class="fixed top-0 w-full z-50">
-<div class="bg-primary/10 py-1">
-<p class="text-xs text-center text-primary">Current Online Users: <span id="onlineUsers">10000</span></p>
-</div>
-<nav class="bg-white/80 backdrop-blur-md border-b border-gray-100">
+<nav class="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-100">
 <div class="flex items-center justify-between px-4 h-14">
-<img src="https://static.readdy.ai/image/a1945381f3f5188613f7888b610c9dac/e445a657fa3dd0eab04ee62beac9a7bb.jpeg" alt="Lumiverse logo" class="h-8">
+<div class="font-['Pacifico'] text-xl text-primary">logo</div>
+<div class="flex items-center gap-2">
+<div class="relative" id="languageSelector">
+<button onclick="toggleLanguageMenu()" class="flex items-center gap-1 px-2 py-1 text-sm text-gray-600 hover:bg-gray-50 rounded-lg">
+<span id="currentLang">EN</span>
+<i class="ri-arrow-down-s-line"></i>
+</button>
+<div id="languageMenu" class="hidden absolute right-0 top-full mt-1 bg-white rounded-lg shadow-lg border border-gray-100 w-24">
+<button onclick="changeLanguage('en')" class="w-full px-3 py-2 text-sm text-left hover:bg-gray-50 text-gray-600">English</button>
+<button onclick="changeLanguage('zh')" class="w-full px-3 py-2 text-sm text-left hover:bg-gray-50 text-gray-600">中文</button>
+<button onclick="changeLanguage('ja')" class="w-full px-3 py-2 text-sm text-left hover:bg-gray-50 text-gray-600">日本語</button>
+</div>
+</div>
 <div class="w-8 h-8 flex items-center justify-center cursor-pointer">
 <i class="ri-user-line text-gray-600"></i>
 </div>
 </div>
-</nav>
 </div>
-<main class="pt-24 pb-20 px-4">
+</nav>
+<main class="pt-20 pb-20 px-4">
 <h1 class="text-2xl font-semibold text-center mb-8">Daily Fortune Reading</h1>
 <div class="grid grid-cols-3 gap-4 mb-8">
 <div class="fortune-card bg-white p-4 rounded-lg shadow-sm cursor-pointer" onclick="selectOption('zodiac')">
@@ -115,8 +161,7 @@ DEFAULT: '8px',
 </button>
 </div>
 <div class="space-y-6">
-<div class="flex items-center justify-between">
-<div>
+<div class="bg-gradient-to-r from-primary/10 to-secondary/10 p-4 rounded-lg">
 <h4 class="text-sm font-medium mb-2">Overall Luck</h4>
 <div class="flex text-primary">
 <i class="ri-star-fill"></i>
@@ -126,69 +171,18 @@ DEFAULT: '8px',
 <i class="ri-star-line"></i>
 </div>
 </div>
-<div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full">
-<i class="ri-sun-line text-primary text-xl"></i>
-</div>
-</div>
-<div class="grid grid-cols-3 gap-4">
-<div class="text-center">
-<div class="w-10 h-10 mx-auto mb-2 flex items-center justify-center bg-primary/10 rounded-full">
-<i class="ri-heart-pulse-line text-primary"></i>
-</div>
-<p class="text-xs">Health</p>
-<p class="text-primary font-medium">85%</p>
-</div>
-<div class="text-center">
-<div class="w-10 h-10 mx-auto mb-2 flex items-center justify-center bg-primary/10 rounded-full">
-<i class="ri-money-dollar-circle-line text-primary"></i>
-</div>
-<p class="text-xs">Wealth</p>
-<p class="text-primary font-medium">92%</p>
-</div>
-<div class="text-center">
-<div class="w-10 h-10 mx-auto mb-2 flex items-center justify-center bg-primary/10 rounded-full">
-<i class="ri-heart-line text-primary"></i>
-</div>
-<p class="text-xs">Love</p>
-<p class="text-primary font-medium">78%</p>
-</div>
-</div>
-<div>
-<h4 class="text-sm font-medium mb-2">Lucky Elements</h4>
-<div class="grid grid-cols-2 gap-2">
-<div class="flex items-center space-x-2 text-sm p-2 bg-primary/5 rounded-lg">
-<i class="ri-palette-line text-primary"></i>
-<span>Color: Purple</span>
-</div>
-<div class="flex items-center space-x-2 text-sm p-2 bg-primary/5 rounded-lg">
-<i class="ri-number-3 text-primary"></i>
-<span>Number: 7</span>
-</div>
-</div>
-</div>
-<div>
+<div class="bg-gradient-to-r from-primary/10 to-secondary/10 p-4 rounded-lg">
 <h4 class="text-sm font-medium mb-2">Financial Prospects</h4>
-<p class="text-sm text-gray-600 mb-2">Favorable conditions for investments. Consider long-term planning. Your financial intuition is particularly sharp today.</p>
-<div class="flex items-center space-x-2 text-xs text-primary">
-<i class="ri-arrow-right-up-line"></i>
-<span>Trending Upward</span>
+<p class="text-sm text-gray-600">Favorable conditions for investments. Consider long-term planning.</p>
 </div>
-</div>
-<div>
+<div class="bg-gradient-to-r from-primary/10 to-secondary/10 p-4 rounded-lg">
 <h4 class="text-sm font-medium mb-2">Romance</h4>
-<p class="text-sm text-gray-600 mb-2">An unexpected encounter might lead to something special. Keep your heart open to new possibilities.</p>
-<div class="flex flex-wrap gap-2">
-<span class="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">Social Events</span>
-<span class="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">New Connections</span>
+<p class="text-sm text-gray-600">An unexpected encounter might lead to something special.</p>
 </div>
+<div class="flex gap-3">
+<button onclick="closeModal()" class="flex-1 bg-white border border-primary text-primary py-3 rounded-button font-medium">Close</button>
+<button onclick="shareFortune()" class="flex-1 bg-primary text-white py-3 rounded-button font-medium">Share</button>
 </div>
-<div>
-<h4 class="text-sm font-medium mb-2">Daily Advice</h4>
-<div class="bg-primary/5 p-3 rounded-lg">
-<p class="text-sm text-gray-600">Focus on personal growth and self-improvement today. Your efforts will be rewarded in unexpected ways.</p>
-</div>
-</div>
-<button onclick="closeModal()" class="w-full bg-primary text-white py-3 rounded-button font-medium">Got it</button>
 </div>
 </div>
 </div>
@@ -213,19 +207,56 @@ DEFAULT: '8px',
 </div>
 </nav>
 <script>
-function updateOnlineUsers() {
-const usersElement = document.getElementById('onlineUsers');
-let currentUsers = parseInt(usersElement.textContent);
-const increment = Math.floor(Math.random() * 5) + 1;
-currentUsers += increment;
-usersElement.textContent = currentUsers.toLocaleString();
-}
-setInterval(updateOnlineUsers, 2000);
-const mockData = {
-zodiac: ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'],
-blood: ['A', 'B', 'O', 'AB'],
-mbti: ['INTJ', 'INTP', 'ENTJ', 'ENTP', 'INFJ', 'INFP', 'ENFJ', 'ENFP', 'ISTJ', 'ISFJ', 'ESTJ', 'ESFJ', 'ISTP', 'ISFP', 'ESTP', 'ESFP']
+const translations = {
+  en: {
+    title: 'Daily Fortune Reading',
+    zodiacSigns: 'Zodiac Signs',
+    bloodType: 'Blood Type',
+    mbtiType: 'MBTI',
+    latestInsights: 'Latest Insights',
+    generateFortune: 'Generate Fortune',
+    close: 'Close',
+    share: 'Share',
+    home: 'Home',
+    history: 'History',
+    favorites: 'Favorites',
+    settings: 'Settings'
+  },
+  zh: {
+    title: '每日运势',
+    zodiacSigns: '星座运势',
+    bloodType: '血型运势',
+    mbtiType: 'MBTI运势',
+    latestInsights: '最新解读',
+    generateFortune: '生成运势',
+    close: '关闭',
+    share: '分享',
+    home: '首页',
+    history: '历史',
+    favorites: '收藏',
+    settings: '设置'
+  },
+  ja: {
+    title: '今日の運勢',
+    zodiacSigns: '星座占い',
+    bloodType: '血液型占い',
+    mbtiType: 'MBTI占い',
+    latestInsights: '最新の洞察',
+    generateFortune: '運勢を見る',
+    close: '閉じる',
+    share: 'シェア',
+    home: 'ホーム',
+    history: '履歴',
+    favorites: 'お気に入り',
+    settings: '設定'
+  }
 };
+const mockData = {
+  zodiac: ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces', 'Rat', 'Ox', 'Tiger', 'Hare', 'Dragon', 'Snake', 'Horse', 'Sheep', 'Monkey', 'Rooster', 'Dog', 'Boar'],
+  blood: ['A', 'B', 'O', 'AB'],
+  mbti: ['INTJ', 'INTP', 'ENTJ', 'ENTP', 'INFJ', 'INFP', 'ENFJ', 'ENFP', 'ISTJ', 'ISFJ', 'ESTJ', 'ESFJ', 'ISTP', 'ISFP', 'ESTP', 'ESFP']
+};
+let currentLanguage = 'en';
 let currentOption = '';
 function selectOption(option) {
 currentOption = option;
@@ -235,8 +266,8 @@ const fortuneInput = document.getElementById('fortuneInput');
 inputSection.classList.remove('hidden');
 switch(option) {
 case 'zodiac':
-inputTitle.textContent = 'Select Your Zodiac Sign';
-fortuneInput.placeholder = 'Enter your zodiac sign';
+inputTitle.textContent = 'Select Your Zodiac Sign or Chinese Zodiac';
+fortuneInput.placeholder = 'Enter your zodiac sign or Chinese zodiac animal';
 break;
 case 'blood':
 inputTitle.textContent = 'Enter Your Blood Type';
@@ -248,41 +279,182 @@ fortuneInput.placeholder = 'Enter your MBTI type';
 break;
 }
 }
+const mockFortuneData = {
+zodiac: {
+Aries: {
+luck: 4,
+financial: "Your entrepreneurial spirit is heightened today. Consider starting that project you've been thinking about.",
+romance: "A passionate encounter may lead to an exciting new relationship. Be open to unexpected connections."
+},
+Taurus: {
+luck: 5,
+financial: "Financial stability is highlighted. A long-term investment will yield positive results.",
+romance: "Your natural charm attracts meaningful connections. Express your feelings openly."
+},
+Rat: {
+luck: 4,
+financial: "Your quick wit brings profitable opportunities. Trust your instincts in financial decisions.",
+romance: "Your clever nature attracts interesting admirers. Communication is key today."
+},
+Ox: {
+luck: 5,
+financial: "Your diligence pays off with steady financial growth. Long-term investments are favored.",
+romance: "Patience in love leads to deep, meaningful connections."
+},
+Tiger: {
+luck: 3,
+financial: "Bold financial moves may bring unexpected rewards. Stay confident but cautious.",
+romance: "Your magnetic personality draws attention. Choose partners wisely."
+},
+Hare: {
+luck: 4,
+financial: "Intuitive decisions lead to financial gains. Trust your inner voice.",
+romance: "Gentle approach in relationships brings harmony and understanding."
+},
+Dragon: {
+luck: 5,
+financial: "Your natural leadership brings lucrative opportunities. Take calculated risks.",
+romance: "Charisma is at its peak. New romantic possibilities emerge."
+},
+Snake: {
+luck: 4,
+financial: "Wisdom in financial planning brings prosperity. Focus on long-term goals.",
+romance: "Mystery and charm work in your favor in relationships."
+},
+Horse: {
+luck: 3,
+financial: "Adventure leads to financial discoveries. Stay flexible with money matters.",
+romance: "Freedom and romance find balance. Express your feelings honestly."
+},
+Sheep: {
+luck: 5,
+financial: "Artistic ventures bring financial rewards. Trust your creative instincts.",
+romance: "Gentle nature attracts sincere admirers. Nurture emotional connections."
+},
+Monkey: {
+luck: 4,
+financial: "Clever solutions to financial challenges appear. Innovation brings rewards.",
+romance: "Playful energy enhances romantic connections. Keep things light and fun."
+},
+Rooster: {
+luck: 5,
+financial: "Attention to detail brings financial success. Stay organized and focused.",
+romance: "Confidence attracts meaningful relationships. Show your authentic self."
+},
+Dog: {
+luck: 3,
+financial: "Loyalty brings financial stability. Trust in long-term investments.",
+romance: "Faithful nature strengthens existing bonds. New friendships may bloom into romance."
+},
+Boar: {
+luck: 4,
+financial: "Honest approach to finances brings good fortune. Generosity returns rewards.",
+romance: "Sincerity in love leads to deep connections. Open your heart to new possibilities."
+},
+// ... other zodiac signs
+},
+blood: {
+A: {
+luck: 3,
+financial: "Focus on careful planning and systematic approaches to financial decisions.",
+romance: "Your perfectionist nature might need to relax to allow love to flow naturally."
+},
+B: {
+luck: 4,
+financial: "Creative financial solutions will present themselves. Trust your intuition.",
+romance: "Your independent nature attracts interesting potential partners."
+},
+// ... other blood types
+},
+mbti: {
+INTJ: {
+luck: 5,
+financial: "Your strategic thinking will lead to profitable opportunities.",
+romance: "Deep intellectual connections are favored today."
+},
+ENFP: {
+luck: 4,
+financial: "Your creativity opens new income streams. Explore unconventional ideas.",
+romance: "Your charismatic energy attracts multiple admirers. Choose wisely."
+},
+// ... other MBTI types
+}
+};
 function generateFortune() {
 const input = document.getElementById('fortuneInput').value.toUpperCase();
 if (!input) {
-showError('Please enter your information');
+showError("Please enter a value");
 return;
 }
-if (currentOption === 'zodiac' && !mockData.zodiac.includes(input)) {
-showError('Please enter a valid zodiac sign');
+let isValid = false;
+let fortuneData;
+switch(currentOption) {
+case 'zodiac':
+if(mockData.zodiac.includes(input)) {
+isValid = true;
+fortuneData = mockFortuneData.zodiac[input];
+}
+break;
+case 'blood':
+if(mockData.blood.includes(input)) {
+isValid = true;
+fortuneData = mockFortuneData.blood[input];
+}
+break;
+case 'mbti':
+if(mockData.mbti.includes(input)) {
+isValid = true;
+fortuneData = mockFortuneData.mbti[input];
+}
+break;
+}
+if(!isValid) {
+showError(`Please enter a valid ${currentOption} type`);
 return;
 }
-if (currentOption === 'blood' && !mockData.blood.includes(input)) {
-showError('Please enter a valid blood type');
-return;
-}
-if (currentOption === 'mbti' && !mockData.mbti.includes(input)) {
-showError('Please enter a valid MBTI type');
-return;
-}
-const healthScore = Math.floor(Math.random() * 20) + 75;
-const wealthScore = Math.floor(Math.random() * 20) + 75;
-const loveScore = Math.floor(Math.random() * 20) + 75;
+updateFortuneModal(fortuneData, input);
 document.getElementById('fortuneModal').classList.add('active');
-document.querySelector('[data-score="health"]').textContent = `${healthScore}%`;
-document.querySelector('[data-score="wealth"]').textContent = `${wealthScore}%`;
-document.querySelector('[data-score="love"]').textContent = `${loveScore}%`;
 }
 function showError(message) {
 const errorDiv = document.createElement('div');
-errorDiv.className = 'fixed top-20 left-1/2 transform -translate-x-1/2 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-lg text-sm';
+errorDiv.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-lg';
 errorDiv.textContent = message;
 document.body.appendChild(errorDiv);
 setTimeout(() => errorDiv.remove(), 3000);
 }
+function updateFortuneModal(data, input) {
+const starContainer = document.querySelector('.flex.text-primary');
+starContainer.innerHTML = '';
+// Update stars based on luck rating
+for(let i = 0; i < 5; i++) {
+const star = document.createElement('i');
+star.className = i < data.luck ? 'ri-star-fill' : 'ri-star-line';
+starContainer.appendChild(star);
+}
+// Update content
+const modalTitle = document.querySelector('.modal h3');
+modalTitle.textContent = `Fortune Reading for ${input}`;
+const financialText = document.querySelector('.modal p:nth-of-type(1)');
+financialText.textContent = data.financial;
+const romanceText = document.querySelector('.modal p:nth-of-type(2)');
+romanceText.textContent = data.romance;
+}
 function closeModal() {
 document.getElementById('fortuneModal').classList.remove('active');
+document.getElementById('fortuneInput').value = '';
+}
+function shareFortune() {
+const shareData = {
+title: 'My Fortune Reading',
+text: 'Check out my fortune reading from Fortune Telling App!',
+url: window.location.href
+};
+if (navigator.share) {
+navigator.share(shareData)
+.catch((error) => showError('Error sharing fortune'));
+} else {
+showError('Sharing is not supported on this device');
+}
 }
 </script>
 </body>
