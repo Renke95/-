@@ -217,50 +217,69 @@ DEFAULT: '8px',
 </div>
 </nav>
 <script>
-let prayCount = 0;
+let prayCount = parseInt(localStorage.getItem('prayCount') || '0');
 const mainContent = document.querySelector('main');
 const prayPage = document.getElementById('prayPage');
 const prayButton = document.getElementById('prayButton');
 const prayCountElement = document.getElementById('prayCount');
+prayCountElement.textContent = `${prayCount} prayer${prayCount > 1 ? 's' : ''} today`;
 function showHome() {
-    mainContent.style.display = 'block';
-    prayPage.style.display = 'none';
-    document.querySelector('[class*="ri-home-line"]').classList.add('text-primary');
-    document.querySelector('[class*="ri-pray-line"]').classList.remove('text-primary');
-    document.querySelector('[class*="ri-pray-line"]').classList.add('text-gray-400');
+mainContent.style.display = 'block';
+prayPage.style.display = 'none';
+document.querySelector('[class*="ri-home-line"]').classList.add('text-primary');
+document.querySelector('[class*="ri-pray-line"]').classList.remove('text-primary');
+document.querySelector('[class*="ri-pray-line"]').classList.add('text-gray-400');
 }
 function showPray() {
-    mainContent.style.display = 'none';
-    prayPage.style.display = 'flex';
-    document.querySelector('[class*="ri-pray-line"]').classList.add('text-primary');
-    document.querySelector('[class*="ri-pray-line"]').classList.remove('text-gray-400');
-    document.querySelector('[class*="ri-home-line"]').classList.remove('text-primary');
-    document.querySelector('[class*="ri-home-line"]').classList.add('text-gray-400');
+mainContent.style.display = 'none';
+prayPage.style.display = 'flex';
+document.querySelector('[class*="ri-pray-line"]').classList.add('text-primary');
+document.querySelector('[class*="ri-pray-line"]').classList.remove('text-gray-400');
+document.querySelector('[class*="ri-home-line"]').classList.remove('text-primary');
+document.querySelector('[class*="ri-home-line"]').classList.add('text-gray-400');
 }
 prayButton.addEventListener('click', () => {
-    prayCount++;
-    prayCountElement.textContent = `${prayCount} prayer${prayCount > 1 ? 's' : ''} today`;
-    
-    prayButton.classList.add('scale-90');
-    setTimeout(() => {
-        prayButton.classList.remove('scale-90');
-    }, 200);
-    
-    const blessing = document.createElement('div');
-    blessing.className = 'fixed text-white text-opacity-0 transform transition-all duration-1000';
-    blessing.style.left = '50%';
-    blessing.style.top = '50%';
-    blessing.textContent = '🙏 Blessed';
-    
-    document.body.appendChild(blessing);
-    
-    requestAnimationFrame(() => {
-        blessing.style.transform = 'translate(-50%, -100px)';
-        blessing.style.opacity = '0';
-    });
-    
-    setTimeout(() => blessing.remove(), 1000);
+prayCount++;
+localStorage.setItem('prayCount', prayCount.toString());
+prayCountElement.textContent = `${prayCount} prayer${prayCount > 1 ? 's' : ''} today`;
+prayButton.classList.add('scale-90');
+setTimeout(() => {
+prayButton.classList.remove('scale-90');
+}, 200);
+const plusOne = document.createElement('div');
+plusOne.className = 'fixed text-2xl font-bold text-white text-opacity-0 transform transition-all duration-500';
+plusOne.style.left = '50%';
+plusOne.style.top = '50%';
+plusOne.textContent = '+1';
+document.body.appendChild(plusOne);
+requestAnimationFrame(() => {
+plusOne.style.transform = 'translate(-50%, -100px)';
+plusOne.style.opacity = '1';
 });
+setTimeout(() => {
+plusOne.style.opacity = '0';
+setTimeout(() => plusOne.remove(), 500);
+}, 500);
+const blessing = document.createElement('div');
+blessing.className = 'fixed text-white text-opacity-0 transform transition-all duration-1000';
+blessing.style.left = '50%';
+blessing.style.top = '50%';
+blessing.textContent = '🙏 Blessed';
+document.body.appendChild(blessing);
+requestAnimationFrame(() => {
+blessing.style.transform = 'translate(-50%, -100px)';
+blessing.style.opacity = '0';
+});
+setTimeout(() => blessing.remove(), 1000);
+});
+setInterval(() => {
+const now = new Date();
+if (now.getHours() === 0 && now.getMinutes() === 0) {
+prayCount = 0;
+localStorage.setItem('prayCount', '0');
+prayCountElement.textContent = '0 prayers today';
+}
+}, 60000);
 showHome();
 </script>
 <script>
