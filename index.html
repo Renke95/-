@@ -57,6 +57,26 @@ document.querySelector('.fortune-card:nth-child(3) p').textContent = translation
 document.querySelector('h2').textContent = translations[lang].latestInsights;
 // Update input section if visible
 const inputSection = document.getElementById('inputSection');
+if (!inputSection.classList.contains('hidden') && currentOption) {
+selectOption(currentOption);
+}
+// Update navigation items
+const navItems = document.querySelectorAll('nav.fixed.bottom-0 span');
+navItems[0].textContent = translations[lang].home;
+navItems[1].textContent = translations[lang].history;
+navItems[2].textContent = translations[lang].favorites;
+navItems[3].textContent = translations[lang].settings;
+// Update modal buttons if modal is visible
+const modal = document.getElementById('fortuneModal');
+if (modal.classList.contains('active')) {
+const closeBtn = modal.querySelector('button.border-primary');
+const shareBtn = modal.querySelector('button.bg-primary');
+closeBtn.textContent = translations[lang].close;
+shareBtn.textContent = translations[lang].share;
+}
+}
+// Update input section if visible
+const inputSection = document.getElementById('inputSection');
 if (!inputSection.classList.contains('hidden')) {
 const inputTitle = document.getElementById('inputTitle');
 if (currentOption === 'zodiac') {
@@ -191,7 +211,7 @@ animation: float 3s ease-in-out infinite;
 <div id="inputSection" class="hidden mb-8">
 <div class="bg-white p-6 rounded-lg shadow-sm">
 <h3 class="text-lg font-medium mb-4" id="inputTitle"></h3>
-<input type="text" id="fortuneInput" class="w-full p-3 border rounded-lg mb-4 focus:outline-none focus:border-primary" placeholder="">
+<input type="text" id="fortuneInput" class="w-full p-3 border rounded-lg mb-4 focus:outline-none focus:border-primary" placeholder="" autocomplete="off">
 <button onclick="generateFortune()" class="w-full bg-primary text-white py-3 rounded-button font-medium">Generate Fortune</button>
 </div>
 </div>
@@ -327,20 +347,46 @@ const inputSection = document.getElementById('inputSection');
 const inputTitle = document.getElementById('inputTitle');
 const fortuneInput = document.getElementById('fortuneInput');
 inputSection.classList.remove('hidden');
-switch(option) {
-case 'zodiac':
-inputTitle.textContent = 'Select Your Zodiac Sign or Chinese Zodiac';
-fortuneInput.placeholder = 'Enter your zodiac sign or Chinese zodiac animal';
+let titleText = '';
+let placeholderText = '';
+switch(currentLanguage) {
+case 'en':
+titleText = option === 'zodiac' ? 'Select Your Zodiac Sign or Chinese Zodiac' :
+option === 'blood' ? 'Enter Your Blood Type' : 'Enter Your MBTI Type';
+placeholderText = option === 'zodiac' ? 'Enter your zodiac sign or Chinese zodiac animal' :
+option === 'blood' ? 'Enter your blood type (A, B, O, AB)' : 'Enter your MBTI type (e.g., INTJ)';
 break;
-case 'blood':
-inputTitle.textContent = 'Enter Your Blood Type';
-fortuneInput.placeholder = 'Enter your blood type';
+case 'zh':
+titleText = option === 'zodiac' ? '选择您的星座或生肖' :
+option === 'blood' ? '输入您的血型' : '输入您的MBTI类型';
+placeholderText = option === 'zodiac' ? '输入您的星座或生肖' :
+option === 'blood' ? '输入您的血型 (A, B, O, AB)' : '输入您的MBTI类型 (例如: INTJ)';
 break;
-case 'mbti':
-inputTitle.textContent = 'Enter Your MBTI Type';
-fortuneInput.placeholder = 'Enter your MBTI type';
+case 'ja':
+titleText = option === 'zodiac' ? '星座または干支を選択してください' :
+option === 'blood' ? '血液型を入力してください' : 'MBTIタイプを入力してください';
+placeholderText = option === 'zodiac' ? '星座または干支を入力してください' :
+option === 'blood' ? '血液型を入力してください (A, B, O, AB)' : 'MBTIタイプを入力してください (例: INTJ)';
 break;
 }
+inputTitle.textContent = titleText;
+fortuneInput.placeholder = placeholderText;
+// 创建下拉选项列表
+const datalist = document.createElement('datalist');
+datalist.id = 'optionsList';
+const options = mockData[option];
+options.forEach(opt => {
+const optionEl = document.createElement('option');
+optionEl.value = opt;
+datalist.appendChild(optionEl);
+});
+// 更新输入框
+fortuneInput.setAttribute('list', 'optionsList');
+// 移除旧的datalist
+const oldDatalist = document.getElementById('optionsList');
+if (oldDatalist) oldDatalist.remove();
+// 添加新的datalist
+fortuneInput.parentNode.appendChild(datalist);
 }
 const mockFortuneData = {
 en: {
